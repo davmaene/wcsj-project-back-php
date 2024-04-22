@@ -1,0 +1,184 @@
+<?php
+/* 
+// Auther : davmaene
+// conatact : +243 970 284 772
+// mail : kubuya.darone.david@gmail.com | davidmened@gmail.com | developer.david.maene@gmail.com
+// created on june 27 2021 13H 31
+*/
+// cette class de configuration
+
+class WCSJ
+{
+
+    private $_dialect = env['dialect'];
+    private $_host = env['hostname'];
+    private $_dbname = env['dbname'];
+    private $_username = env['username'];
+    private $_password = env['password'];
+    private $db = null;
+
+    private function retrievesColumn($table, $alias)
+    {
+        $columnname = [];
+        $tabColumn = $this->db->prepare("SHOW COLUMNS FROM $table");
+        try {
+            $tabColumn->execute();
+            $tabColumn = $tabColumn->fetchAll();
+            for ($i = 0; $i < count($tabColumn); $i++) {
+                array_push($columnname, $tabColumn[$i]['Field']);
+            }
+            return implode(",", $columnname);
+        } catch (PDOException $e) {
+            $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["SHOW COLUMNS FROM $table"], ['Failed'], [$e->getMessage()]);
+            $this->onLog($exc, 2);
+            return false;
+            // die($e->getMessage());
+        }
+    }
+
+    public function onSynchronization($tbValues = [], $indentified, $table)
+    {
+        if (is_array($tbValues) && (count($tbValues) > 0)) {
+            $cls = $this->retrievesColumn($table, false);
+            $tabvalues = [];
+            if (strlen($cls) > 0) {
+                $cls = substr($cls, strpos($cls, ',', 0) + 1);
+                if ($cls) {
+                    // array_push($tbValues, $indentified);
+                    // array_push($tbValues, 0);
+                    // array_push($tbValues, 0);
+                    // array_push($tbValues, 1);
+                    // array_push($tbValues, date('d/m/Y, H:i:s'));
+                    foreach ($tbValues as $key => $value) {
+                        $val = ("'" . $value . "'");
+                        array_push($tabvalues, $val);
+                    }
+                    try {
+                        $vls = implode(',', $tabvalues);
+                        $req = $this->db->prepare("INSERT INTO $table ($cls) VALUES ($vls)");
+                        var_dump($req);
+                        $req->execute();
+                        return 200;
+                    } catch (PDOException $e) {
+                        $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["CRUD ERROR ON ADDING : $table"], ['Failed'], [$e->getMessage()]);
+                        $this->onLog($exc, 2);
+                        return 503; // violation constraint
+                    }
+                }
+                return 500;
+            }
+            return 500;
+        }
+        return 500;
+    }
+
+    public function __construct()
+    {
+        $this->onInit();
+    }
+
+    public function __inst()
+    {
+        return $this;
+    }
+
+    public function onInit()
+    {
+        if ($this->onConnexion()) {
+            return true;
+        } else {
+            $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Error on connecting to db table"], ['Failed'], [$this->_dbname, $this->_host]);
+            $this->onLog($exc, 2);
+            return false; // faild writting
+        }
+    }
+
+    public function onFetchingOne($query, $tablename)
+    {
+        try {
+            $req = $this->db->prepare($query);
+            $req->execute();
+            $req = $req->fetchAll();
+            // var_dump($req[0]);
+            return !empty($req) && count($req) > 0 ? $req : array();
+        } catch (PDOException $e) {
+            $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Error writting query in $tablename table"], ['Failed'], [$e->getMessage()]);
+            $this->onLog($exc, 2);
+            return 500; // faild writting
+        }
+    }
+
+    public function onRunningQuery($query, $tablename)
+    {
+        try {
+            $req = $this->db->prepare($query);
+            $req->execute();
+            return true; // done writting
+        } catch (PDOException $e) {
+            $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Error writting query in $tablename table"], ['Failed'], [$e->getMessage()]);
+            $this->onLog($exc, 2);
+            return false; // faild writting
+        }
+    }
+
+    public function onConnexion()
+    {
+        $host = $this->_host;
+        $dialect = $this->_dialect;
+        if (1) {
+            try {
+                $conn = new PDO("$this->_dialect:host=$this->_host;dbname=$this->_dbname", "$this->_username", "$this->_password");
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->db = $conn;
+                return true;
+            } catch (PDOException $e) {
+                $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Connexion to DB " . $this->_dbname], ['Failed'], [$e->getMessage()]);
+                $this->onLog($exc, 2);
+                return false;
+            }
+        } else return false;
+    }
+
+    public function onLog($array, $to)
+    {
+        $file = ($to === 1) ? 'log/ini.initialize.ini' : 'log/log.file.ini';
+        $res = array();
+        foreach ($array as $key => $val) {
+            if (is_array($val)) {
+                $res[] = "[$key]";
+                foreach ($val as $skey => $sval) $res[] = (is_numeric($sval) ? $sval : '"' . $sval . '"');
+            } else $res[] = "$key = " . (is_numeric($val) ? $val : '"' . $val . '"');
+        }
+        $res[] = '-------------------------------------------------------------' . PHP_EOL;
+        $this->safefilerewrite(implode("\r\n", $res), $file);
+    }
+
+    private function safefilerewrite($dataToSave, $fileName)
+    {
+        $fp = null;
+        try {
+            if (file_exists($fileName)) {
+                $fp = fopen($fileName, 'a++');
+            } else {
+                $fileName = "ini.initialize.ini";
+                $fp = fopen($fileName, "a++");
+            }
+        } catch (\Throwable $th) {
+            $fileName = "ini.initialize.ini";
+            $fp = fopen($fileName, "a++");
+        }
+        if ($fp) {
+            chmod($fileName, 0777);
+            $startTime = microtime(TRUE);
+            do {
+                $canWrite = flock($fp, LOCK_EX);
+                if (!$canWrite) usleep(round(rand(0, 100) * 1000));
+            } while ((!$canWrite) and ((microtime(TRUE) - $startTime) < 5));
+            if ($canWrite) {
+                flock($fp, LOCK_UN);
+                file_put_contents($fileName, $dataToSave . PHP_EOL, FILE_APPEND);
+            }
+            fclose($fp);
+        }
+    }
+}

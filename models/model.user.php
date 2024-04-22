@@ -12,6 +12,7 @@ class User
     public function __construct()
     {
     }
+    
     public function __constructor($nom, $postnom, $phone, $email, $password, $niveau_acces)
     {
         $this->nom = $nom;
