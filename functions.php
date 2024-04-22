@@ -1,12 +1,4 @@
 <?php
-/* 
-// Auther : davmaene
-// conatact : +243 970 284 772
-// mail : kubuya.darone.david@gmail.com | davidmened@gmail.com | developer.david.maene@gmail.com
-// created on june 27 2021 13H 31
-*/
-// cette class de configuration
-
 class WCSJ
 {
 

@@ -1,5 +1,4 @@
 <?php
-
 class User
 {
     private $nom;
@@ -8,11 +7,14 @@ class User
     private $email; // ceci represente le nom_d_utilisateur
     private $password;
     private $niveau_acces;
+    private static $tblname = "__tbl_users";
+    private $config = null;
 
-    public function __construct()
+    public function __construct($config = null)
     {
+        $this->config = $config;
     }
-    
+
     public function __constructor($nom, $postnom, $phone, $email, $password, $niveau_acces)
     {
         $this->nom = $nom;
@@ -21,6 +23,10 @@ class User
         $this->email = $email;
         $this->password = $password;
         $this->niveau_acces = $niveau_acces;
+    }
+
+    public function onAuth($config)
+    {
     }
 
     public function getNom()
