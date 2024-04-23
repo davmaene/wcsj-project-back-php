@@ -9,6 +9,39 @@ class WCSJ
     private $_password = env['password'];
     private $db = null;
 
+    public function _httpGet($url, $query)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'x-connexion-apiconnect:Bearer WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNuZGhSemwxV2xOSk5rbHFRVFZPZWtGNVQwUlJNMDU2U1dsTVEwb3haRmRzYTBscWIybFpiVWsxVGtkSk1FNTZSWFJhVjFKcFdrTXdNRTFxVVhoTVZHc3pXV3BaZEZscVJUQk5WRTVxV21wYWJVNTZVVFJKYVhkcFdERTVjRnBEU1RaTlUzZHBZMjA1YzFwVFNUWlhNM05wWVZkUmFVOXFTWE5KYmtwMllrZFZhVTlwU2tSaFIxWjVXVEpvYkdSWVNXbE1RMHBtV0ROU2FXSkdPWGxhVjNob1pFZHNkbUp1VFdsUGJuTnBWa2RLYzFWdE9YTmFWV3hyU1dwdmVVeERTbFZaYlhoV1l6SldlVk5YVVdsUGFrVnpTVzVPTUZsWVVqRmplVWsyVFZneE9WaFRkMmxoVjBZd1NXcHZlRTU2UlhwUFJGVjZUbFJCZDB4RFNteGxTRUZwVDJwRk0wMVVUVFJQUkdzeFRVUkJjMGx0Y0RCaFUwazJTV3ByTlUxNVNqa3Vaa0l6Y2t3M2NUVkZMWGxDU1hGSFEyaGhURlEyU25CSVgxb3lZVEpZVW5kRFlrczRUVGhNZVZvNVRRPT0='
+        ));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
+    public function _httpPost($url, $data)
+    {
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'x-connexion-apiconnect:Bearer WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNuZGhSemwxV2xOSk5rbHFRVFZPZWtGNVQwUlJNMDU2U1dsTVEwb3haRmRzYTBscWIybFpiVWsxVGtkSk1FNTZSWFJhVjFKcFdrTXdNRTFxVVhoTVZHc3pXV3BaZEZscVJUQk5WRTVxV21wYWJVNTZVVFJKYVhkcFdERTVjRnBEU1RaTlUzZHBZMjA1YzFwVFNUWlhNM05wWVZkUmFVOXFTWE5KYmtwMllrZFZhVTlwU2tSaFIxWjVXVEpvYkdSWVNXbE1RMHBtV0ROU2FXSkdPWGxhVjNob1pFZHNkbUp1VFdsUGJuTnBWa2RLYzFWdE9YTmFWV3hyU1dwdmVVeERTbFZaYlhoV1l6SldlVk5YVVdsUGFrVnpTVzVPTUZsWVVqRmplVWsyVFZneE9WaFRkMmxoVjBZd1NXcHZlRTU2UlhwUFJGVjZUbFJCZDB4RFNteGxTRUZwVDJwRk0wMVVUVFJQUkdzeFRVUkJjMGx0Y0RCaFUwazJTV3ByTlUxNVNqa3Vaa0l6Y2t3M2NUVkZMWGxDU1hGSFEyaGhURlEyU25CSVgxb3lZVEpZVW5kRFlrczRUVGhNZVZvNVRRPT0='
+        ));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
     private function retrievesColumn($table, $alias)
     {
         $columnname = [];
