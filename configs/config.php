@@ -6,11 +6,11 @@ $customer_hostname = "localhost"; // name or ip of host
 $customer_username = "root"; // username to access to db
 $customer_password = ""; // password to access to db
 // ---------------- ofline connexion ----------------------
-// $customer_dbname = "bmbhucrm5emzdm9cv3nn";// || "__db_big"; // the name of your database
+// $customer_dbname = "etsdelespoir_mobileuser";// || "__db_big"; // the name of your database
 // $customer_dialect = "mysql"; // env database service cloud
-// $customer_hostname = "bmbhucrm5emzdm9cv3nn-mysql.services.clever-cloud.com";// || "localhost"; // name or ip of host
+// $customer_hostname = "localhost";// || "localhost"; // name or ip of host
 // $customer_username = "u0jrypzsb57uybno";// || "root"; // username to access to db
-// $customer_password = "IRdFg9A07LWQwnaOWeug";// || ""; // password to access to db
+// $customer_password = "S$rW}tosN%j{";// || ""; // password to access to db
 // ---------------------------------------------------------
 // ---------------------------------------------------------
 //          dont modify code beyond this line
