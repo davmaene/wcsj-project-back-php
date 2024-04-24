@@ -37,6 +37,7 @@ class User
         $titre = "";
         $profile = "";
         $status = "";
+        $id_pos = 0;
 
         for ($i = 0; $i < count($data); $i++) {
             $idadmin = $data[$i]['idAdm'];
@@ -47,16 +48,18 @@ class User
             $titre = $data[$i]['titre'];
             $profile = $data[$i]['profile'];
             $status = $data[$i]['status'];
+            $id_pos = $data[$i]['pos_id'];
         }
 
         $__ = $this;
-        $__->__constructor($idadmin, $nom, $postnom, $email, $password, $titre, $profile, $status, 0);
+        $__->__constructor($idadmin, $nom, $postnom, $email, $password, $titre, $profile, $status, $id_pos);
         return $__;
     }
 
     public function onAuthentification($username, $password, $configs)
     {
-        $query = "SELECT * FROM $this->table_name WHERE profile = '$username'";
+        $query = "SELECT admin.idAdm, admin.nom, admin.postnom, admin.user, admin.profile, admin.pword, admin.titre, admin.status, pos.id AS pos_id, pos.designation AS pos_designation, pos.details AS pos_details FROM admin LEFT JOIN pos_agents ON admin.idAdm = pos_agents.agent LEFT JOIN pos ON pos_agents.pos = pos.id WHERE admin.profile = '$password'";
+        // echo($query);
         $line = $configs->onFetchingOne($query);
         if (is_array($line) && count($line) > 0) {
             return  $this->create_user_from_array($line);
