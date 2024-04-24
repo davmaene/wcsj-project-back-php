@@ -1,30 +1,25 @@
 <?php
 @require("models/model.config.php");
-class User extends WCSJ
+class User
 {
-    private $idadmin;
-    private $nom;
-    private $postnom;
-    private $user;
-    private $password;
-    private $titre;
-    private $profile;
-    private $status;
-    private $id_pos;
+    public $idadmin;
+    public $nom;
+    public $postnom;
+    public $email;
+    public $password;
+    public $titre;
+    public $profile;
+    public $status;
+    public $id_pos;
 
     protected $table_name = "admin";
 
-    public function __construct()
-    {
-        $this->onConnexionToDB();
-    }
-
-    public function __constructor($idadmin, $nom, $postnom, $user, $password, $titre, $profile, $status, $id_pos)
+    public function __constructor($idadmin, $nom, $postnom, $email, $password, $titre, $profile, $status, $id_pos)
     {
         $this->idadmin = $idadmin;
         $this->nom = $nom;
         $this->postnom = $postnom;
-        $this->user = $user;
+        $this->email = $email;
         $this->password = $password;
         $this->titre = $titre;
         $this->status = $status;
@@ -32,12 +27,39 @@ class User extends WCSJ
         $this->id_pos = $id_pos;
     }
 
-    public function onAuthentification($username, $password)
+    function create_user_from_array($data)
+    {
+        $idadmin = "";
+        $nom = "";
+        $postnom = "";
+        $email = "";
+        $password = "";
+        $titre = "";
+        $profile = "";
+        $status = "";
+
+        for ($i = 0; $i < count($data); $i++) {
+            $idadmin = $data[$i]['idAdm'];
+            $nom = $data[$i]['nom'];
+            $postnom = $data[$i]['postnom'];
+            $email = $data[$i]['user'];
+            $password = $data[$i]['pword'];
+            $titre = $data[$i]['titre'];
+            $profile = $data[$i]['profile'];
+            $status = $data[$i]['status'];
+        }
+
+        $__ = $this;
+        $__->__constructor($idadmin, $nom, $postnom, $email, $password, $titre, $profile, $status, 0);
+        return $__;
+    }
+
+    public function onAuthentification($username, $password, $configs)
     {
         $query = "SELECT * FROM $this->table_name WHERE profile = '$username'";
-        $line = $this->onFetchingOne($query);
+        $line = $configs->onFetchingOne($query);
         if (is_array($line) && count($line) > 0) {
-            
-        }else return null;
+            return  $this->create_user_from_array($line);
+        } else return null;
     }
 }

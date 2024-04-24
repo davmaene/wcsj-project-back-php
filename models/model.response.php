@@ -4,18 +4,20 @@ class Response
 
     public $status;
     public $statusText;
-    public $body;
+    public $data;
 
     public function __construct($status, $body)
     {
         $this->status = $status;
         $this->statusText = $this->writeResponse($status);
-        $this->body = $body;
+        $this->data = is_object($body) ? get_object_vars($body) : $body;
     }
     public function print()
     {
-        // return $this;
-        return (json_encode($this, JSON_PRETTY_PRINT));
+        $jsonData = (json_encode($this, JSON_PRETTY_PRINT));
+        if ($jsonData === false) {
+            return "Erreur JSON: " . json_last_error_msg();
+        } else return $jsonData;
     }
     private function writeResponse($code = 0)
     {
@@ -54,6 +56,6 @@ class Response
     }
     public function getBody()
     {
-        return $this->body;
+        return $this->data;
     }
 }

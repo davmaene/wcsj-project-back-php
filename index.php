@@ -20,9 +20,14 @@ if (ucwords($method) === "POST") {
                     $username = $_POST['username'];
                     $password = $_POST['password'];
 
-                    $user = $user->onAuthentification($username, $password);
-                    
-
+                    $user = $user->onAuthentification($username, $password, $wcsj);
+                    if ($user !== null) {
+                        $res = new Response(200, $user);
+                        echo ($res->print());
+                    } else {
+                        $res = new Response(403, "Password or username is incorrect !");
+                        echo ($res->print());
+                    }
                 } else {
                     $res = new Response(205, "This request must have at least username, or password !");
                     echo ($res->print());
