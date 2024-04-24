@@ -29,7 +29,7 @@ class Produits
             $prd = new Produits();
 
             $id = $k->id;
-            $item = $k->item;
+            $item = $k->produit;
             $categorie = $k->categorie;
             $setdate = $k->setdate;
             $qty = $k->qty;
@@ -60,7 +60,7 @@ class Produits
     public function liste($id_pos, $configs)
     {
         $conn = $configs->db;
-        $query = "SELECT * FROM $this->table_name JOIN stock_input ON $this->table_name.id = stock_input.item WHERE stock_input.pos = $id_pos";
+        $query = "SELECT $this->table_name.id, $this->table_name.item AS produit, $this->table_name.categorie, $this->table_name.setdate, stock_input.id AS si, stock_input.item, stock_input.qty, stock_input.pack, stock_input.pos, stock_input.prix FROM $this->table_name JOIN stock_input ON $this->table_name.id = stock_input.item WHERE stock_input.pos = $id_pos";
         $products = array();
         $result = $conn->prepare($query);
         $result->execute();

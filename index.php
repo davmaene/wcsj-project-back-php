@@ -17,10 +17,10 @@ if ($headers !== null && $headers === authorization) {
             switch ($cb) {
                 case 'produits':
                     $produits = new Produits();
-                    $id_pos = $_GET['id_post'] ?? 0;
+                    $id_pos = $_GET['id_pos'] ?? 0;
                     $produits = $produits->liste($id_pos, $wcsj);
 
-                    $res = new Response(200, array("length" => count($produits), "list" => $produits));
+                    $res = new Response(200, array("length" => count($produits), "rows" => $produits));
                     echo ($res->print());
                     break;
                 case 'login':
