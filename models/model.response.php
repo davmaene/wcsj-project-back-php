@@ -41,6 +41,9 @@ class Response
             case 403:
                 return "=> dont have access to ressource, password or user name incorrect";
                 // break;
+            case 401:
+                return "=> dont have access to this server";
+                // break;
             default:
                 return "=> unknown server error ";
                 // break;

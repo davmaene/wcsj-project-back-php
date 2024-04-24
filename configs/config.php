@@ -15,6 +15,7 @@ $customer_password = ""; // password to access to db
 // ---------------------------------------------------------
 //          dont modify code beyond this line
 // ---------------------------------------------------------
+define("authorization", "Bearer $2a$10$9sGZJIxtRzABhoQkc.kyVegE7esOAlxa8C45/BKeAM4vep2NxiFj2");
 define(
     "env", // environement
     array(
