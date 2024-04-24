@@ -10,10 +10,12 @@ $method = $_SERVER['REQUEST_METHOD'];
 $headers = isset($_SERVER['HTTP_X_CONNEXION_WCSJ_MOBILE']) ? ($_SERVER['HTTP_X_CONNEXION_WCSJ_MOBILE']) : null;
 
 if ($headers !== null && $headers === authorization) {
-    if (ucwords($method) === "POST") {
+    if (ucwords($method) === "POST" || ucwords($method) === "GET") {
         if (isset($_GET['_cb']) && ($_GET['_cb']) !== null) {
             $cb = $_GET['_cb'] ?? "";
             switch ($cb) {
+                case 'produits':
+                    break;
                 case 'login':
                     if (isset($_POST['username']) && isset($_POST['password'])) {
 
@@ -31,6 +33,7 @@ if ($headers !== null && $headers === authorization) {
                             echo ($res->print());
                         }
                     } else {
+                        var_dump($_POST);
                         $res = new Response(205, "This request must have at least username, or password !");
                         echo ($res->print());
                     }
