@@ -10,6 +10,7 @@ class User extends WCSJ
     private $titre;
     private $profile;
     private $status;
+    private $id_pos;
 
     protected $table_name = "admin";
 
@@ -18,7 +19,7 @@ class User extends WCSJ
         $this->onConnexionToDB();
     }
 
-    public function __constructor($idadmin, $nom, $postnom, $user, $password, $titre, $profile, $status)
+    public function __constructor($idadmin, $nom, $postnom, $user, $password, $titre, $profile, $status, $id_pos)
     {
         $this->idadmin = $idadmin;
         $this->nom = $nom;
@@ -28,12 +29,15 @@ class User extends WCSJ
         $this->titre = $titre;
         $this->status = $status;
         $this->profile = $profile;
+        $this->id_pos = $id_pos;
     }
 
     public function onAuthentification($username, $password)
     {
-        $query = "SELECT * FROM $this->table_name WHERE profile = $password";
+        $query = "SELECT * FROM $this->table_name WHERE profile = '$username'";
         $line = $this->onFetchingOne($query);
-        return $line;
+        if (is_array($line) && count($line) > 0) {
+            
+        }else return null;
     }
 }

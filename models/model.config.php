@@ -129,7 +129,7 @@ class WCSJ
         } catch (PDOException $e) {
             $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Error writting query in $tablename table"], ['Failed'], [$e->getMessage()]);
             $this->onLog($exc, 2);
-            return 500; // faild writting
+            return array(); // faild writting
         }
     }
 

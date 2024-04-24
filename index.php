@@ -21,7 +21,7 @@ if (ucwords($method) === "POST") {
                     $password = $_POST['password'];
 
                     $user = $user->onAuthentification($username, $password);
-                    var_dump($user);
+                    
 
                 } else {
                     $res = new Response(205, "This request must have at least username, or password !");
