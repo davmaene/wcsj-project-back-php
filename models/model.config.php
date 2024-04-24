@@ -7,7 +7,7 @@ class WCSJ
     private $_dbname = env['dbname'];
     private $_username = env['username'];
     private $_password = env['password'];
-    private $db = null;
+    public $db = null;
 
     public function _httpGet($url, $query)
     {

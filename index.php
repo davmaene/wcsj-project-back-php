@@ -4,6 +4,7 @@ session_start();
 @require("./models/model.logger.php");
 @require("./models/model.response.php");
 @require("./models/model.user.php");
+@require("./models/model.produits.php");
 
 $wcsj = new WCSJ();
 $method = $_SERVER['REQUEST_METHOD'];
@@ -15,6 +16,12 @@ if ($headers !== null && $headers === authorization) {
             $cb = $_GET['_cb'] ?? "";
             switch ($cb) {
                 case 'produits':
+                    $produits = new Produits();
+                    $id_pos = $_GET['id_post'] ?? 0;
+                    $produits = $produits->liste($id_pos, $wcsj);
+
+                    $res = new Response(200, array("length" => count($produits), "list" => $produits));
+                    echo ($res->print());
                     break;
                 case 'login':
                     if (isset($_POST['username']) && isset($_POST['password'])) {
