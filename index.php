@@ -4,12 +4,9 @@ session_start();
 @require("./models/model.logger.php");
 @require("./models/model.response.php");
 @require("./models/model.user.php");
-@require("./functions.php");
 
 $wcsj = new WCSJ();
 $method = $_SERVER['REQUEST_METHOD'];
-$url = "http://localhost:1004/api/test"; //"https://app.etsdelespoir.com";
-$user = new User($wcsj);
 
 if (ucwords($method) === "POST") {
     if (isset($_GET['_cb']) && ($_GET['_cb']) !== null) {
@@ -17,8 +14,15 @@ if (ucwords($method) === "POST") {
         switch ($cb) {
             case 'login':
                 if (isset($_POST['username']) && isset($_POST['password'])) {
+
+                    $user = new User();
+
                     $username = $_POST['username'];
                     $password = $_POST['password'];
+
+                    $user = $user->onAuthentification($username, $password);
+                    var_dump($user);
+
                 } else {
                     $res = new Response(205, "This request must have at least username, or password !");
                     echo ($res->print());

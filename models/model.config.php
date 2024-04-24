@@ -109,7 +109,7 @@ class WCSJ
 
     public function onInit()
     {
-        if ($this->onConnexion()) {
+        if ($this->onConnexionToDB()) {
             return true;
         } else {
             $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Error on connecting to db table"], ['Failed'], [$this->_dbname, $this->_host]);
@@ -118,7 +118,7 @@ class WCSJ
         }
     }
 
-    public function onFetchingOne($query, $tablename)
+    public function onFetchingOne($query, $tablename = null)
     {
         try {
             $req = $this->db->prepare($query);
@@ -146,7 +146,7 @@ class WCSJ
         }
     }
 
-    public function onConnexion()
+    public function onConnexionToDB()
     {
         $host = $this->_host;
         $dialect = $this->_dialect;
