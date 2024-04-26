@@ -15,6 +15,16 @@ if ($headers !== null && $headers === authorization) {
         if (isset($_GET['_cb']) && ($_GET['_cb']) !== null) {
             $cb = $_GET['_cb'] ?? "";
             switch ($cb) {
+                case 'facturation':
+                    var_dump($_POST);
+                    break;
+                case 'approvisionnement':
+
+                    $by = $_POST['createdby'] ?? null;
+                    $date_approvisonnement = $_POST['date_approvisonnement'] ?? null;
+                    $items = $_POST['items'] ?? null;
+                    
+                    break;
                 case 'produits':
                     $produits = new Produits();
                     $id_pos = $_GET['id_pos'] ?? 0;
