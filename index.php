@@ -5,6 +5,8 @@ session_start();
 @require("./models/model.response.php");
 @require("./models/model.user.php");
 @require("./models/model.produits.php");
+@require("./models/model.approvisionnement.php");
+@require("./models/model.stock.php");
 
 $wcsj = new WCSJ();
 $method = $_SERVER['REQUEST_METHOD'];
