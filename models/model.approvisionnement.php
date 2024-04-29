@@ -77,6 +77,10 @@ class Approvisionnements
                         $stock_input_raw = $stock_input_raw->create($config);
                         if ($stock_input_raw) {
                             $stock_input_depot = new Stockinputdepot($stock_raw, $this->date_expiration, $this->num_lot, $this->qte_unit, $this->prix_unit, $this->createdon, $setter, null);
+                            $stock_input_depot = $stock_input_depot->create($config);
+                            if($stock_input_depot){
+                                $saved_items[$key] = $this;
+                            }
                         } else {
                             return false;
                         }
