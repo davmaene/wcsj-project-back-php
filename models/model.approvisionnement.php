@@ -69,23 +69,20 @@ class Approvisionnements
                         $value['createdon']
                     );
 
-                    $stock_raw = 
+                    $stock_raw = new Stock($this->item, $this->categorie, null);
+                    $stock_raw = $stock_raw->create($config);
 
-                    $saved_items[$key] = $this;
-                    // $query = "INSERT INTO $stock (`id`, `item`, `categorie`, `setdate`) VALUES (:item, :categorie, :setdate)";
-                    // $stmt = $conn->prepare($query);
-                    // $stmt->bindParam(":item", $this->item);
-                    // $stmt->bindParam(":categorie", $this->categorie);
-                    // $stmt->bindParam(":setdate", $this->createdon);
-                    // // Associez les autres paramètres avec les valeurs des propriétés correspondantes
-                    // // Exemple : $stmt->bindParam(":dosage", $this->dosage);
-                    // // Exécutez la requête
-                    // if ($stmt->execute()) {
-                    //     $saved_items[$key] = $this;
-                    //     // return true;
-                    // } else {
-                    //     // return false;
-                    // }
+                    if ($stock_raw) {
+                        $stock_input_raw = new Stockinput($stock_raw, $this->date_expiration, 0, $this->qte_unit, $this->prix_unit, $this->createdon, $setter, $pos, $this->paquetage, null);
+                        $stock_input_raw = $stock_input_raw->create($config);
+                        if ($stock_input_raw) {
+                            
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
                 }
                 return $saved_items;
             } catch (\Throwable $th) {
