@@ -9,6 +9,7 @@ session_start();
 @require("./models/model.stockinput.php");
 @require("./models/model.stockinputdepot.php");
 @require("./models/model.approvisionnement.php");
+@require("./models/model.prixitem.php");
 
 $wcsj = new WCSJ();
 $method = $_SERVER['REQUEST_METHOD'];

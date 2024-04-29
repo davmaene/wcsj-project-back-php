@@ -27,7 +27,7 @@ class Stockinput {
     }
 
     public function create($config) {
-        $conn = $config->db();
+        $conn = $config->db;
         if ($conn) {
             $query = "INSERT INTO $this->tablename (item, date_exp, ref, qty, prix, date, setter, pos, pack) VALUES (:item, :date_exp, :ref, :qty, :prix, :date, :setter, :pos, :pack)";
             $stmt = $conn->prepare($query);

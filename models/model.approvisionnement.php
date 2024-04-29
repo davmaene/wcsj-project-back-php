@@ -72,14 +72,24 @@ class Approvisionnements
                     $stock_raw = new Stock($this->item, $this->categorie, null);
                     $stock_raw = $stock_raw->create($config);
 
+                    var_dump($stock_raw);
+
                     if ($stock_raw) {
                         $stock_input_raw = new Stockinput($stock_raw, $this->date_expiration, $this->num_lot, $this->qte_unit, $this->prix_unit, $this->createdon, $setter, $pos, $this->paquetage, null);
                         $stock_input_raw = $stock_input_raw->create($config);
                         if ($stock_input_raw) {
                             $stock_input_depot = new Stockinputdepot($stock_raw, $this->date_expiration, $this->num_lot, $this->qte_unit, $this->prix_unit, $this->createdon, $setter, null);
                             $stock_input_depot = $stock_input_depot->create($config);
-                            if($stock_input_depot){
-                                $saved_items[$key] = $this;
+                            if ($stock_input_depot) {
+                                $stock_input_details = new Stockinputdetails($stock_raw, $this->prix, $this->prix_unit);
+                                $stock_input_details = $stock_input_details->create($config);
+                                if ($stock_input_details) {
+                                    $saved_items[$key] = $this;
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                return false;
                             }
                         } else {
                             return false;
