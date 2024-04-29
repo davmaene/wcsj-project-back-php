@@ -25,9 +25,19 @@ if ($headers !== null && $headers === authorization) {
                 case 'approvisionnement':
 
                     $by = $_POST['createdby'] ?? null;
+                    $pos = $_POST['pos'] ?? null;
                     $date_approvisonnement = $_POST['date_approvisonnement'] ?? null;
                     $items = $_POST['items'] ?? null;
-                    
+
+                    $approv = new Appovisionnements();
+                    $approv = $approv->create($wcsj, $by, $pos, $items);
+                    if (is_array($approv)) {
+                        $res = new Response(200, array("length" => count($approv), "rows" => $approv));
+                        echo ($res->print());
+                    } else {
+                        $res = new Response(500, "Approv: can not be proceded, sorry try again letter !");
+                        echo ($res->print());
+                    }
                     break;
                 case 'produits':
                     $produits = new Produits();

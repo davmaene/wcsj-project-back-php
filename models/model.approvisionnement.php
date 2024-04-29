@@ -80,14 +80,15 @@ class Appovisionnements
                     // Exemple : $stmt->bindParam(":dosage", $this->dosage);
                     // Exécutez la requête
                     if ($stmt->execute()) {
-                        $saved_items[] = $this;
+                        $saved_items[$key] = $this;
                         // return true;
                     } else {
                         // return false;
                     }
                 }
+                return $saved_items;
             } catch (\Throwable $th) {
-                //throw $th;
+                return false;
             }
         } else {
             return false;
