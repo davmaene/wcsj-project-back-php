@@ -1,6 +1,6 @@
 <?php
 
-class Appovisionnements
+class Approvisionnements
 {
 
     public $id;

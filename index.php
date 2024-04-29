@@ -29,7 +29,7 @@ if ($headers !== null && $headers === authorization) {
                     $date_approvisonnement = $_POST['date_approvisonnement'] ?? null;
                     $items = $_POST['items'] ?? null;
 
-                    $approv = new Appovisionnements();
+                    $approv = new Approvisionnements();
                     $approv = $approv->create($wcsj, $by, $pos, $items);
                     if (is_array($approv)) {
                         $res = new Response(200, array("length" => count($approv), "rows" => $approv));
