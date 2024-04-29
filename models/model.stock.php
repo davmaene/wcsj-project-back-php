@@ -6,6 +6,7 @@ class Stock
     public $item;
     public $categorie;
     public $setdate;
+
     protected $tablename = "stocks";
 
     public function __construct($item, $categorie, $setdate, $id = null)
@@ -13,12 +14,12 @@ class Stock
         $this->id = $id;
         $this->item = $item;
         $this->categorie = $categorie;
-        $this->setdate = $setdate;
+        $this->setdate = $setdate ?? date('Y-m-d H:i:s');
     }
 
     public function create($config)
     {
-        $conn = $config->db();
+        $conn = $config->db;
         if ($conn) {
             $query = "INSERT INTO $this->tablename (item, categorie, setdate) VALUES (:item, :categorie, :setdate)";
             $stmt = $conn->prepare($query);

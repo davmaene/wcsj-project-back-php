@@ -18,7 +18,7 @@ class Stockinputdetails
     {
         $conn = $config->db;
         if ($conn) {
-            $query = "INSERT INTO $this->tablename (`stock`, `unites`, `pu`) VALUES (:stock, :unites, :pu)";
+            $query = "INSERT INTO $this->tablename (stock, unites, pu) VALUES (:stock, :unites, :pu)";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(":stock", $this->stock);
             $stmt->bindParam(":unites", $this->unites);
@@ -26,10 +26,10 @@ class Stockinputdetails
             if ($stmt->execute()) {
                 return $conn->lastInsertId();
             } else {
-                return false;
+                return "0 not executed";
             }
         } else {
-            return false;
+            return "0 diff conne";
         }
     }
 }

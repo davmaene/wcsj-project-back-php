@@ -25,7 +25,7 @@ class Stockinputdepot {
     public function create($config) {
         $conn = $config->db;
         if ($conn) {
-            $query = "INSERT INTO __stores (item, date_exp, ref, qty, prix, date, setter) VALUES (:item, :date_exp, :ref, :qty, :prix, :date, :setter)";
+            $query = "INSERT INTO $this->tablename (item, date_exp, ref, qty, prix, date, setter) VALUES (:item, :date_exp, :ref, :qty, :prix, :date, :setter)";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(":item", $this->item);
             $stmt->bindParam(":date_exp", $this->date_exp);

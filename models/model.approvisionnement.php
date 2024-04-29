@@ -72,8 +72,6 @@ class Approvisionnements
                     $stock_raw = new Stock($this->item, $this->categorie, null);
                     $stock_raw = $stock_raw->create($config);
 
-                    var_dump($stock_raw);
-
                     if ($stock_raw) {
                         $stock_input_raw = new Stockinput($stock_raw, $this->date_expiration, $this->num_lot, $this->qte_unit, $this->prix_unit, $this->createdon, $setter, $pos, $this->paquetage, null);
                         $stock_input_raw = $stock_input_raw->create($config);
@@ -83,19 +81,20 @@ class Approvisionnements
                             if ($stock_input_depot) {
                                 $stock_input_details = new Stockinputdetails($stock_raw, $this->prix, $this->prix_unit);
                                 $stock_input_details = $stock_input_details->create($config);
-                                if ($stock_input_details) {
-                                    $saved_items[$key] = $this;
+                                if (is_numeric($stock_input_details)) {
+                                    // $saved_items[] = $this;
+                                    array_push($saved_items, get_object_vars($this));
                                 } else {
-                                    return false;
+                                    return "44".$stock_input_details; // stepfour not succeded
                                 }
                             } else {
-                                return false;
+                                return 33; // stepthree not succeded
                             }
                         } else {
-                            return false;
+                            return 22; // steptwo not succeded
                         }
                     } else {
-                        return false;
+                        return 11; // stepone not succeded
                     }
                 }
                 return $saved_items;
