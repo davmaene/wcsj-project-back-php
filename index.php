@@ -30,7 +30,7 @@ if ($headers !== null && $headers === authorization) {
                     $items = $_POST['items'] ?? null;
 
                     $approv = new Approvisionnements();
-                    $approv = $approv->create($wcsj, $by, $pos, $items);
+                    $approv = $approv->create($wcsj, $by, $pos, json_decode($items, true));
                     if (is_array($approv)) {
                         $res = new Response(200, array("length" => count($approv), "rows" => $approv));
                         echo ($res->print());

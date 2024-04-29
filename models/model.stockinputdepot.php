@@ -9,6 +9,7 @@ class Stockinputdepot {
     public $prix;
     public $date;
     public $setter;
+    protected $tablename = "stock_input_depot";
 
     public function __construct($item, $date_exp, $ref, $qty, $prix, $date, $setter, $id = null) {
         $this->id = $id;

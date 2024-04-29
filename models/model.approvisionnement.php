@@ -46,10 +46,7 @@ class Approvisionnements
     public function create($config, $setter, $pos, $items = [])
     {
         $saved_items = [];
-        $conn = $config->db();
-        $stock = "stocks"; // step 1: Approv
-        $stock_input = "stock_input"; // step 2: Approv
-        $stock_input_depot = "stock_input_depot"; // step 3: Approv
+        $conn = $config->db;
 
         if ($conn) {
             try {
@@ -71,20 +68,24 @@ class Approvisionnements
                         $value['issynch'],
                         $value['createdon']
                     );
-                    $query = "INSERT INTO $stock (`id`, `item`, `categorie`, `setdate`) VALUES (:item, :categorie, :setdate)";
-                    $stmt = $conn->prepare($query);
-                    $stmt->bindParam(":item", $this->item);
-                    $stmt->bindParam(":categorie", $this->categorie);
-                    $stmt->bindParam(":setdate", $this->createdon);
-                    // Associez les autres paramètres avec les valeurs des propriétés correspondantes
-                    // Exemple : $stmt->bindParam(":dosage", $this->dosage);
-                    // Exécutez la requête
-                    if ($stmt->execute()) {
-                        $saved_items[$key] = $this;
-                        // return true;
-                    } else {
-                        // return false;
-                    }
+
+                    $stock_raw = 
+
+                    $saved_items[$key] = $this;
+                    // $query = "INSERT INTO $stock (`id`, `item`, `categorie`, `setdate`) VALUES (:item, :categorie, :setdate)";
+                    // $stmt = $conn->prepare($query);
+                    // $stmt->bindParam(":item", $this->item);
+                    // $stmt->bindParam(":categorie", $this->categorie);
+                    // $stmt->bindParam(":setdate", $this->createdon);
+                    // // Associez les autres paramètres avec les valeurs des propriétés correspondantes
+                    // // Exemple : $stmt->bindParam(":dosage", $this->dosage);
+                    // // Exécutez la requête
+                    // if ($stmt->execute()) {
+                    //     $saved_items[$key] = $this;
+                    //     // return true;
+                    // } else {
+                    //     // return false;
+                    // }
                 }
                 return $saved_items;
             } catch (\Throwable $th) {
@@ -94,7 +95,4 @@ class Approvisionnements
             return false;
         }
     }
-
-    // Ajoutez des méthodes pour lire, mettre à jour et supprimer des enregistrements si nécessaire
-    // ...
 }

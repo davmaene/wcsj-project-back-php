@@ -11,6 +11,7 @@ class Stockinput {
     public $setter;
     public $pos;
     public $pack;
+    protected $tablename = "stock_input";
 
     public function __construct($item, $date_exp, $ref, $qty, $prix, $date, $setter, $pos, $pack, $id = null) {
         $this->id = $id;
@@ -28,7 +29,7 @@ class Stockinput {
     public function create($config) {
         $conn = $config->db();
         if ($conn) {
-            $query = "INSERT INTO __stores (item, date_exp, ref, qty, prix, date, setter, pos, pack) VALUES (:item, :date_exp, :ref, :qty, :prix, :date, :setter, :pos, :pack)";
+            $query = "INSERT INTO $this->tablename (item, date_exp, ref, qty, prix, date, setter, pos, pack) VALUES (:item, :date_exp, :ref, :qty, :prix, :date, :setter, :pos, :pack)";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(":item", $this->item);
             $stmt->bindParam(":date_exp", $this->date_exp);
