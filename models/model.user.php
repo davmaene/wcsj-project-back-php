@@ -65,4 +65,18 @@ class User
             return  $this->create_user_from_array($line);
         } else return null;
     }
+
+    public function list($configs)
+    {
+        $conn = $configs->db;
+        $query = "SELECT admin.idAdm, admin.nom, admin.postnom, admin.user, admin.profile, admin.pword, admin.titre, admin.status, pos.id AS pos_id, pos.designation AS pos_designation, pos.details AS pos_details FROM admin LEFT JOIN pos_agents ON admin.idAdm = pos_agents.agent LEFT JOIN pos ON pos_agents.pos = pos.id "; //WHERE admin.profile = '$password'
+        $statement = $conn->prepare($query);
+        try {
+            $statement->execute();
+            $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $users;
+        } catch (\Throwable $th) {
+            return [];
+        }
+    }
 }

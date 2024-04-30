@@ -10,6 +10,8 @@ session_start();
 @require("./models/model.stockinputdepot.php");
 @require("./models/model.approvisionnement.php");
 @require("./models/model.prixitem.php");
+@require("./models/model.facturepersonnalisee.php");
+@require("./models/model.facturepersonnaliseitems.php");
 
 $wcsj = new WCSJ();
 $method = $_SERVER['REQUEST_METHOD'];
@@ -20,8 +22,52 @@ if ($headers !== null && $headers === authorization) {
         if (isset($_GET['_cb']) && ($_GET['_cb']) !== null) {
             $cb = $_GET['_cb'] ?? "";
             switch ($cb) {
+                case 'users':
+                    $users = new User();
+
+                    $users = $users->list($wcsj);
+                    if ($users !== null) {
+                        $res = new Response(200, array("length" => count($users), "rows" => $users));
+                        echo ($res->print());
+                    } else {
+                        $res = new Response(403, "Password or username is incorrect !");
+                        echo ($res->print());
+                    }
+                    break;
                 case 'facturation':
-                    var_dump($_POST);
+                    $by = $_POST['createdby'] ?? null;
+                    $pos = $_POST['pos'] ?? null;
+                    $items = $_POST['items'] ?? null;
+                    $queryArray = [];
+                    parse_str($items, $queryArray);
+
+                    foreach ($queryArray as $key => $value) {
+
+                        $u = $value['user'] ?? $by;
+                        $p = $value['pos'] ?? $pos;
+                        $c = (($value['client'] === "Ordinary") ? 0 : 1) ?? null;
+                        $d = date("Y-m-d", strtotime($value['crearedon'])) ?? date("YYYY-MM-DD");
+                        $pc = !empty($value['pack']) && strlen($value['pack']) > 0 ? $value['pack'] : "Boite";
+                        $qte = $value['qte'] ?? 0;
+                        $prix = $value['prix'] ?? 0.0;
+                        $item = $value['item'] ?? "";
+                        $ref = $value['ref'] ?? "";
+
+                        $fp = new Facturepersonnalisee(null, $u, $p, $c, $d);
+                        $fp = $fp->create($wcsj);
+
+                        if (is_numeric($fp)) {
+                            $fpi = new Facturepersonnaliseeitems($fp, $item, $prix, $qte, $pc);
+                            $fpi = $fpi->create($wcsj);
+                        } else {
+                            $res = new Response(500, array("message" => "This line was not saved ==> ","length" => 1, "rows" => [$value]));
+                            echo ($res->print());
+                            return false;
+                        }
+                    }
+
+                    $res = new Response(200, array("length" => count($queryArray), "rows" => $queryArray));
+                    echo ($res->print());
                     break;
                 case 'approvisionnement':
 
@@ -29,6 +75,11 @@ if ($headers !== null && $headers === authorization) {
                     $pos = $_POST['pos'] ?? null;
                     $date_approvisonnement = $_POST['date_approvisonnement'] ?? null;
                     $items = $_POST['items'] ?? null;
+
+                    $queryArray = [];
+                    parse_str($items, $queryArray);
+
+                    $item = $queryArray;
 
                     $approv = new Approvisionnements();
                     $approv = $approv->create($wcsj, $by, $pos, json_decode($items, true));
@@ -65,7 +116,6 @@ if ($headers !== null && $headers === authorization) {
                             echo ($res->print());
                         }
                     } else {
-                        var_dump($_POST);
                         $res = new Response(205, "This request must have at least username, or password !");
                         echo ($res->print());
                     }
