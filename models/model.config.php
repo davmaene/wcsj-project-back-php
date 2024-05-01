@@ -107,6 +107,19 @@ class WCSJ
         return $this;
     }
 
+    function nettoyerCaracteresMalformes($chaine)
+    {
+        // Convertit la chaîne en UTF-8 si ce n'est pas déjà le cas
+        if (!mb_check_encoding($chaine, 'UTF-8')) {
+            $chaine = mb_convert_encoding($chaine, 'UTF-8', mb_detect_encoding($chaine));
+        }
+
+        // Remplace les caractères malformés par des points d'interrogation
+        $chaine = mb_convert_encoding($chaine, 'UTF-8', 'UTF-8');
+
+        return $chaine;
+    }
+
     public function onInit()
     {
         if ($this->onConnexionToDB()) {
@@ -150,9 +163,12 @@ class WCSJ
     {
         $host = $this->_host;
         $dialect = $this->_dialect;
+        $options = [
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8', // Définit le jeu de caractères sur UTF-8 lors de la connexion
+        ];
         if (1) {
             try {
-                $conn = new PDO("$this->_dialect:host=$this->_host;dbname=$this->_dbname", "$this->_username", "$this->_password");
+                $conn = new PDO("$this->_dialect:host=$this->_host;dbname=$this->_dbname", "$this->_username", "$this->_password",$options);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $this->db = $conn;
                 return true;
