@@ -5,6 +5,7 @@ $customer_dialect = "mysql"; //
 $customer_hostname = "localhost"; // 
 $customer_username = "root"; //
 $customer_password = ""; //
+
 // ---------------- ofline connexion ----------------------
 // $customer_dbname = "etsdelespoir_hblitev321";//
 // $customer_dialect = "mysql"; // 
