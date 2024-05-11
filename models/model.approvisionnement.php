@@ -66,7 +66,7 @@ class Approvisionnements
                         $value['pays_origin'],
                         $value['prix_unit'],
                         $value['issynch'],
-                        $value['createdon']
+                        $value['crearedon'] ?? $value['createdon'] 
                     );
 
                     $stock_raw = new Stock($this->item, $this->categorie, null);

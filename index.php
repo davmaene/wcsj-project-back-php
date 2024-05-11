@@ -60,7 +60,7 @@ if ($headers !== null && $headers === authorization) {
                             $fpi = new Facturepersonnaliseeitems($fp, $item, $prix, $qte, $pc);
                             $fpi = $fpi->create($wcsj);
                         } else {
-                            $res = new Response(500, array("message" => "This line was not saved ==> ","length" => 1, "rows" => [$value]));
+                            $res = new Response(500, array("message" => "This line was not saved ==> ", "length" => 1, "rows" => [$value]));
                             echo ($res->print());
                             return false;
                         }
@@ -79,10 +79,12 @@ if ($headers !== null && $headers === authorization) {
                     $queryArray = [];
                     parse_str($items, $queryArray);
 
-                    $item = $queryArray;
+                    $items = $queryArray;
+                    // var_dump(($item));
+                    // return false;
 
                     $approv = new Approvisionnements();
-                    $approv = $approv->create($wcsj, $by, $pos, json_decode($items, true));
+                    $approv = $approv->create($wcsj, $by, $pos, $items);
                     if (is_array($approv)) {
                         $res = new Response(200, array("length" => count($approv), "rows" => $approv));
                         echo ($res->print());
