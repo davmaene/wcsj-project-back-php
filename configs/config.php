@@ -5,13 +5,14 @@
 // $customer_hostname = "localhost"; // 
 // $customer_username = "root"; //
 // $customer_password = ""; //
-
-// ---------------- ofline connexion ----------------------
-$customer_dbname = "etsdelespoir_hblitev321";//
+// --------------------------------------------------------
+// ---------------- offline connexion ----------------------
+// --------------------------------------------------------
+$customer_dbname = "etsdelespoir_hblitev321"; //
 $customer_dialect = "mysql"; // 
-$customer_hostname = "localhost";// 
-$customer_username = "etsdelespoir_mobileuser";// 
-$customer_password = 'S$rW}tosN%j{';//
+$customer_hostname = "localhost"; // 
+$customer_username = "etsdelespoir_mobileuser"; // 
+$customer_password = 'S$rW}tosN%j{'; //
 // ---------------------------------------------------------
 // ---------------------------------------------------------
 define("authorization", "Bearer $2a$10$9sGZJIxtRzABhoQkc.kyVegE7esOAlxa8C45/BKeAM4vep2NxiFj2");
