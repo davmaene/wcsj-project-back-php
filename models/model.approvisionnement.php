@@ -99,6 +99,7 @@ class Approvisionnements
                 }
                 return $saved_items;
             } catch (\Throwable $th) {
+                // var_dump($th);
                 return false;
             }
         } else {
