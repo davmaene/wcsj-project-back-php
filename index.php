@@ -80,8 +80,6 @@ if ($headers !== null && $headers === authorization) {
                     parse_str($items, $queryArray);
 
                     $items = $queryArray;
-                    // var_dump(($item));
-                    // return false;
 
                     $approv = new Approvisionnements();
                     $approv = $approv->create($wcsj, $by, $pos, $items);
@@ -89,7 +87,7 @@ if ($headers !== null && $headers === authorization) {
                         $res = new Response(200, array("length" => count($approv), "rows" => $approv));
                         echo ($res->print());
                     } else {
-                        $res = new Response(500, "Approv: can not be proceded, sorry try again letter !");
+                        $res = new Response(500, "Approv: can not be proceded, sorry try again letter !" . $approv);
                         echo ($res->print());
                     }
                     break;

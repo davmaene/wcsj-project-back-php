@@ -66,7 +66,7 @@ class Approvisionnements
                         $value['pays_origin'],
                         $value['prix_unit'],
                         $value['issynch'],
-                        $value['crearedon'] ?? $value['createdon'] 
+                        $value['crearedon'] ?? $value['createdon']
                     );
 
                     $stock_raw = new Stock($this->item, $this->categorie, null);
@@ -82,28 +82,26 @@ class Approvisionnements
                                 $stock_input_details = new Stockinputdetails($stock_raw, $this->prix, $this->prix_unit);
                                 $stock_input_details = $stock_input_details->create($config);
                                 if (is_numeric($stock_input_details)) {
-                                    // $saved_items[] = $this;
                                     array_push($saved_items, get_object_vars($this));
                                 } else {
-                                    return "44".$stock_input_details; // stepfour not succeded
+                                    return "44 stock_input_details => " . $stock_input_details; // stepfour not succeded
                                 }
                             } else {
-                                return 33; // stepthree not succeded
+                                return "33 stock_input_depot => " . $stock_input_depot; // stepthree not succeded
                             }
                         } else {
-                            return 22; // steptwo not succeded
+                            return "22 stock_input_raw => " . $stock_input_raw; // steptwo not succeded
                         }
                     } else {
-                        return 11; // stepone not succeded
+                        return "11 stock_raw => " . $stock_raw; // stepone not succeded
                     }
                 }
                 return $saved_items;
             } catch (\Throwable $th) {
-                // var_dump($th);
-                return false;
+                return "500 catch error" . $th->getMessage();
             }
         } else {
-            return false;
+            return "500 conn not seted =>" . $conn;
         }
     }
 }
