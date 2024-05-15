@@ -43,7 +43,7 @@ class Approvisionnements
         $this->createdon = $createdon;
     }
 
-    public function create($config, $setter, $pos, $items = [])
+    public function create($config, $setter, $pos, $date_approv, $items = [])
     {
         $saved_items = [];
         $conn = $config->db;
@@ -87,7 +87,7 @@ class Approvisionnements
                                     if (is_numeric($stock_details)) {
                                         array_push($saved_items, get_object_vars($this));
                                     } else {
-                                        return "55 stock_details => ". $stock_details; // step stock details not succeded
+                                        return "55 stock_details => " . $stock_details; // step stock details not succeded
                                     }
                                 } else {
                                     return "44 stock_input_details => " . $stock_input_details; // stepfour not succeded

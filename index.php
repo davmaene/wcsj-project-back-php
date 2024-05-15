@@ -92,6 +92,9 @@ if ($headers !== null && $headers === authorization) {
                         $res = new Response(200, array("length" => count($approv), "rows" => $approv));
                         echo ($res->print());
                     } else {
+                        // "data" => $items
+                        $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Approv: can not be proceded with approvisionnement, sorry try again letter !" . $approv], ['Failed'], []);
+                        $wcsj->onLog($exc, 1);
                         $res = new Response(500, array("message" => "Approv: can not be proceded with approvisionnement, sorry try again letter !" . $approv, "data" => $items));
                         echo ($res->print());
                     }
