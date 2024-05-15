@@ -26,7 +26,7 @@ class Stockdetails
     {
         $conn = $config->db;
         if ($conn) {
-            $query = "INSERT INTO $this->tablename (stock, marque, pays_originire, dosage, paquettage, nature, autres) VALUES (:stock, :marque, :pays_originire, :dosage, :paquettage, :nature, :autres)";
+            $query = "INSERT INTO $this->tablename (stock, marque, pays_originire, dosage, paquetage, nature, autres) VALUES (:stock, :marque, :pays_originire, :dosage, :paquettage, :nature, :autres)";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(":stock", $this->stock);
             $stmt->bindParam(":marque", $this->marque);

@@ -73,9 +73,13 @@ if ($headers !== null && $headers === authorization) {
                 case 'approvisionnement':
 
                     $by = $_POST['createdby'] ?? null;
-                    $pos = $_POST['pos'] ?? null;
+                    $pos = isset($_POST['pos']) &&  $_POST['pos'] !== null &&  $_POST['pos'] !== "null" ? (int)  $_POST['pos'] : 1;
                     $date_approvisonnement = $_POST['date_approvisonnement'] ?? null;
                     $items = $_POST['items'] ?? null;
+
+                    // $res = new Response(500, $_POST);
+                    // echo ($res->print());
+                    // return false;
 
                     $queryArray = [];
                     parse_str($items, $queryArray);
@@ -88,7 +92,7 @@ if ($headers !== null && $headers === authorization) {
                         $res = new Response(200, array("length" => count($approv), "rows" => $approv));
                         echo ($res->print());
                     } else {
-                        $res = new Response(500, "Approv: can not be proceded, sorry try again letter !" . $approv);
+                        $res = new Response(500, array("message" => "Approv: can not be proceded with approvisionnement, sorry try again letter !" . $approv, "data" => $items));
                         echo ($res->print());
                     }
                     break;
