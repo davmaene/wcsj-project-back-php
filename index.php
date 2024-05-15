@@ -9,7 +9,8 @@ session_start();
 @require("./models/model.stockinput.php");
 @require("./models/model.stockinputdepot.php");
 @require("./models/model.approvisionnement.php");
-@require("./models/model.prixitem.php");
+@require("./models/model.stockinputdetails.php");
+@require("./models/model.stockdetails.php");
 @require("./models/model.facturepersonnalisee.php");
 @require("./models/model.facturepersonnaliseitems.php");
 
