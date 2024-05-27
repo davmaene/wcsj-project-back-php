@@ -11,6 +11,8 @@ class Response
         $this->status = $status;
         $this->statusText = $this->writeResponse($status);
         $this->data = is_object($body) ? get_object_vars($body) : $body;
+        http_response_code($status);
+        header("HTTP/1.1 $status $this->statusText");
     }
     public function print()
     {
