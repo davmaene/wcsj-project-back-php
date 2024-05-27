@@ -85,7 +85,17 @@ class Approvisionnements
                                     $stock_details = new Stockdetails($stock_raw, $this->marque, $this->pays_origin, $this->dosage, $this->paquetage, $this->nature, $this->num_lot);
                                     $stock_details = $stock_details->create($config);
                                     if (is_numeric($stock_details)) {
-                                        array_push($saved_items, get_object_vars($this));
+                                        echo("=====================================================");
+                                        array_push(
+                                            $saved_items,
+                                            [
+                                                "saved" => get_object_vars($this),
+                                                "stock" => $stock_raw,
+                                                "stock-input" => $stock_input_raw,
+                                                "stock-input-depot" => $stock_input_depot,
+                                                "stock-input-details" => $stock_details,
+                                            ]
+                                        );
                                     } else {
                                         return "55 stock_details => " . $stock_details; // step stock details not succeded
                                     }

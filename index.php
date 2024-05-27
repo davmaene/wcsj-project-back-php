@@ -88,13 +88,18 @@ if ($headers !== null && $headers === authorization) {
 
                     $approv = new Approvisionnements();
                     $approv = $approv->create($wcsj, $by, $pos, $items);
+                    
+                    $res = new Response(200, array("length" => count($items), "rows" => $approv));
+                    echo ($res->print());
+                    return false;
+
                     if (is_array($approv)) {
                         $res = new Response(200, array("length" => count($approv), "rows" => $approv));
                         echo ($res->print());
                     } else {
                         // "data" => $items
-                        $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Approv: can not be proceded with approvisionnement, sorry try again letter !" . $approv], ['Failed'], []);
-                        $wcsj->onLog($exc, 1);
+                        // $exc = new LogNotification([Date('d/m/Y, H:i:s')], ["Approv: can not be proceded with approvisionnement, sorry try again letter !" . $approv], ['Failed'], []);
+                        // $wcsj->onLog($exc, 1);
                         $res = new Response(500, array("message" => "Approv: can not be proceded with approvisionnement, sorry try again letter !" . $approv, "data" => $items));
                         echo ($res->print());
                     }
