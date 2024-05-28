@@ -50,7 +50,8 @@ class Approvisionnements
 
         if ($conn) {
             try {
-                foreach ($items as $key => $value) {
+                for ($i = 0; $i < $items; $i++) {
+                    $value = $items[$i];
                     $this->__constructor(
                         $value['item'],
                         $value['prix'],
@@ -85,7 +86,7 @@ class Approvisionnements
                                     $stock_details = new Stockdetails($stock_raw, $this->marque, $this->pays_origin, $this->dosage, $this->paquetage, $this->nature, $this->num_lot);
                                     $stock_details = $stock_details->create($config);
                                     if (is_numeric($stock_details)) {
-                                        echo("=====================================================");
+                                        echo ("=====================================================");
                                         array_push(
                                             $saved_items,
                                             [
