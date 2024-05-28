@@ -77,23 +77,17 @@ if ($headers !== null && $headers === authorization) {
                     $date_approvisonnement = $_POST['date_approvisonnement'] ?? null;
                     $items = $_POST['items'] ?? null;
 
-                    // $res = new Response(500, $_POST);
-                    // echo ($res->print());
-                    // return false;
-
                     $queryArray = [];
                     parse_str($items, $queryArray);
-
-                    // var_dump($queryArray);
 
                     $items = $queryArray;
 
                     $approv = new Approvisionnements();
                     $approv = $approv->create($wcsj, $by, $pos, $date_approvisonnement, $items);
                     
-                    $res = new Response(200, array("length" => count($items), "rows" => $approv));
-                    echo ($res->print());
-                    return false;
+                    // $res = new Response(200, array("length" => count($items), "rows" => $approv));
+                    // echo ($res->print());
+                    // return false;
 
                     if (is_array($approv)) {
                         $res = new Response(200, array("length" => count($approv), "rows" => $approv));
