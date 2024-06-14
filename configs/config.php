@@ -15,6 +15,7 @@ $customer_password = 'S$rW}tosN%j{'; //
 // ---------------------------------------------------------
 // ---------------------------------------------------------
 define("authorization", "Bearer $2a$10$9sGZJIxtRzABhoQkc.kyVegE7esOAlxa8C45/BKeAM4vep2NxiFj2");
+define("varsion", "1.4.5");
 define(
     "env", // environement
     array(
