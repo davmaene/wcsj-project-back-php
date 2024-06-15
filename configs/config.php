@@ -7,7 +7,7 @@
 // ---------------------------------------------------------
 // ---------------- offline connexion ----------------------
 // ---------------------------------------------------------
-$customer_dbname = "etsdelespoir_hblitev321"; //
+$customer_dbname = "etsdelespoir_test"; //
 $customer_dialect = "mysql"; // 
 $customer_hostname = "localhost"; // 
 $customer_username = "etsdelespoir_mobileuser"; // 

@@ -26,7 +26,7 @@ class Approvisionnements
 
     public function __constructor($item, $prix, $date_expiration, $dosage, $marque, $qte_pack, $num_lot, $categorie, $qte_unit, $paquetage, $nature, $pays_origin, $prix_unit, $issynch, $createdon)
     {
-        $this->item = $item;
+        $this->item = strtoupper($item);
         $this->prix = $prix;
         $this->date_expiration = $date_expiration;
         $this->dosage = $dosage;
